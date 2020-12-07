@@ -107,8 +107,8 @@
                     </div>
                 </div>
                 <div class="row">
-                    <template v-for="items in sptData">
-                        <div class="spt-li" :key="items.id">
+                    <div class="spt-li">
+                        <template v-for="items in sptData">
                             <div
                                 class="line"
                                 v-for="item in items"
@@ -118,13 +118,12 @@
                                 <div class="title">{{ item.display }}</div>
                                 <div class="desc">{{ item.example }}</div>
                             </div>
-                        </div>
-                    </template>
+                        </template>
+                    </div>
                 </div>
             </div>
         </section>
         <foot></foot>
-        <login></login>
     </div>
 </template>
 
@@ -133,12 +132,12 @@ import Price from "./child/Price.vue";
 import Foot from "./child/Foot.vue";
 import MyHeader from "./child/MyHeader.vue";
 import HomeIntro from "./child/Intro.vue";
-import Login from "./child/Login.vue";
+
 import request from "@/api/req.js";
 
 export default {
     name: "Home",
-    components: { Price, Foot, MyHeader, HomeIntro, Login },
+    components: { Price, Foot, MyHeader, HomeIntro },
     created() {
         this.getClouds();
     },

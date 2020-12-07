@@ -19,12 +19,8 @@
                 </a>
             </div>
             <div class="buy-button">
-                <a
-                    href="#"
-                    class="text-dark h6 mr-3 login"
-                    data-toggle="modal"
-                    data-target="#LoginForm"
-                    >Login</a
+                <span class="text-dark h6 mr-3 login" @click="btnShowLogin"
+                    >Login</span
                 >
                 <a
                     href="https://1.envato.market/hostick"
@@ -58,12 +54,32 @@
                 </ul>
             </div>
         </div>
+        <template v-if="showLogin">
+            <login @fatherMethod="emitLogin"></login>
+        </template>
     </header>
 </template>
 <script>
+import Login from "./Login.vue";
 export default {
     name: "MyHeader",
+    components: { Login },
     props: [],
     computed: {},
+    data() {
+        return {
+            showLogin: false,
+        };
+    },
+    methods: {
+        btnShowLogin() {
+            this.showLogin = true;
+        },
+        emitLogin(dict) {
+            if (dict.action == "close") {
+                this.showLogin = false;
+            }
+        },
+    },
 };
 </script>
