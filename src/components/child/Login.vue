@@ -163,20 +163,21 @@
                                     label-cols="12"
                                 >
                                     <b-row>
-                                        <b-col>
+                                        <b-col cols="8">
                                             <b-form-input
-                                                type="email"
                                                 required
-                                                :placeholder="$t('login.email')"
-                                                v-model="regForm.email"
+                                                :placeholder="$t('reg.captcha')"
+                                                v-model="regForm.captcha"
                                                 trim
                                             ></b-form-input>
                                         </b-col>
                                         <b-col>
                                             <b-button
-                                                variant="outline-primary"
+                                                block
+                                                variant="primary"
                                                 @click="sendCaptcha"
-                                                >Send</b-button
+                                                :disabled="btnCaptchaStatus"
+                                                >{{ btnCaptcha }}</b-button
                                             >
                                         </b-col>
                                     </b-row>
@@ -203,7 +204,7 @@
                                 ></b-form-input>
                             </b-form-group>
                             <b-form-group
-                                :label="$t('login.password')"
+                                :label="$t('login.confirm.password')"
                                 label-cols="12"
                                 :state="state"
                                 :invalid-feedback="invalidPwdFeedback"
@@ -211,7 +212,7 @@
                                 <b-form-input
                                     required
                                     type="password"
-                                    :placeholder="$t('login.password')"
+                                    :placeholder="$t('login.password2')"
                                     v-model="regForm.password2"
                                     maxlength="20"
                                 ></b-form-input>
@@ -256,7 +257,12 @@ export default {
                 email: "",
                 password: "",
                 password2: "",
+                captcha: "",
             },
+            btnCaptcha: "Send",
+            btnCaptchaStatus: false,
+            timer: null,
+            countdown: 60,
         };
     },
     computed: {
@@ -275,7 +281,29 @@ export default {
         onLoginReset() {},
         onRegisterSubmit() {},
         onRegReset() {},
-        sendCaptcha() {},
+        sendCaptcha() {
+            if (this.regForm.email.trim() == "") {
+                this.$message.error("input correct email");
+                return;
+            }
+            if (!this.timer) {
+                this.timer = setInterval(() => {
+                    if (this.countdown > 0 && this.countdown <= 60) {
+                        this.countdown--;
+                        if (this.countdown !== 0) {
+                            this.btnCaptcha = "Resend(" + this.countdown + ")";
+                            this.btnCaptchaStatus = true;
+                        } else {
+                            clearInterval(this.timer);
+                            this.btnCaptcha = "Send";
+                            this.countdown = 60;
+                            this.timer = null;
+                            this.btnCaptchaStatus = false;
+                        }
+                    }
+                }, 1000);
+            }
+        },
         close() {
             this.$emit("fatherMethod", { action: "close" });
         },

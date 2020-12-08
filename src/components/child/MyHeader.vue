@@ -3,7 +3,7 @@
         <div class="container">
             <!-- Logo container-->
             <div>
-                <a class="logo" href="index.html">
+                <a class="logo" href="/">
                     <img
                         src="../../assets/images/logo-dark.png"
                         class="l-dark"
@@ -37,23 +37,23 @@
             <div id="navigation">
                 <ul class="navigation-menu nav-light">
                     <li>
-                        <router-link :to="{ name: 'Index' }">Home</router-link>
+                        <router-link :to="{ name: 'Home' }">Home</router-link>
                         <span class="menu-arrow"></span>
                     </li>
                     <li>
-                        <router-link :to="{ name: 'Login' }">Task</router-link>
+                        <router-link :to="{ name: 'Task' }">Task</router-link>
                         <span class="menu-arrow"></span>
                     </li>
-                    <li>
+                    <!-- <li>
                         <router-link :to="{ name: 'Login' }">Docs</router-link>
                         <span class="menu-arrow"></span>
-                    </li>
-                    <li>
+                    </li> -->
+                    <!-- <li>
                         <router-link :to="{ name: 'Login' }"
                             >Contact</router-link
                         >
                         <span class="menu-arrow"></span>
-                    </li>
+                    </li> -->
                 </ul>
             </div>
         </div>

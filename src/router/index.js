@@ -60,14 +60,14 @@ export const constantRoutes = [
     //         requiresAuth: false
     //     }
     // },
-    // {
-    //     path: '/tos',
-    //     name: 'Tos',
-    //     component: () => import('@/components/Tos'),
-    //     meta: {
-    //         requiresAuth: false
-    //     }
-    // },
+    {
+        path: '/task',
+        name: 'Task',
+        component: () => import('@/components/Task'),
+        meta: {
+            requiresAuth: false
+        }
+    },
     {
         path: '/',
         name: 'Home',
