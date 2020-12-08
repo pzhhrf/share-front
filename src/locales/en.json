@@ -31,5 +31,9 @@
     "login.password": "Password",
     "login.remember": "Remember me",
     "login.signin": "Sign in",
-    "login.signup": "Sign up"
+    "login.signup": "Sign up",
+    "login.forget": "Forgot password ?",
+    "reg.title": "Signup",
+    "reg.captcha": "Captcha",
+    "reg.register": "Register"
 }

@@ -19,14 +19,17 @@
                 </a>
             </div>
             <div class="buy-button">
-                <span class="text-dark h6 mr-3 login" @click="btnShowLogin"
-                    >Login</span
+                <a
+                    href="#"
+                    class="text-dark h6 mr-3 login"
+                    @click="btnShowLogin(true)"
+                    >Login</a
                 >
                 <a
-                    href="https://1.envato.market/hostick"
-                    target="_blank"
-                    class="btn btn-primary"
-                    >Support</a
+                    href="#"
+                    class="text-dark h6 mr-3 login"
+                    @click="btnShowLogin(false)"
+                    >Register</a
                 >
             </div>
             <!--end login button-->
@@ -55,7 +58,7 @@
             </div>
         </div>
         <template v-if="showLogin">
-            <login @fatherMethod="emitLogin"></login>
+            <login @fatherMethod="emitLogin" :isLogin="isLoginPop"></login>
         </template>
     </header>
 </template>
@@ -69,15 +72,20 @@ export default {
     data() {
         return {
             showLogin: false,
+            isLoginPop: true,
         };
     },
     methods: {
-        btnShowLogin() {
+        btnShowLogin(popReg) {
             this.showLogin = true;
+            this.isLoginPop = popReg;
         },
         emitLogin(dict) {
             if (dict.action == "close") {
                 this.showLogin = false;
+            }
+            if (dict.action == "switch") {
+                this.isLoginPop = dict.value;
             }
         },
     },
