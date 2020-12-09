@@ -36,30 +36,22 @@ export const constantRoutes = [
     //     name: 'Login',
     //     component: () => import('@/components/Login')
     // },
-    // {
-    //     path: '/help',
-    //     name: 'Help',
-    //     component: () => import('@/components/Help'),
-    //     meta: {
-    //         requiresAuth: false
-    //     }
-    // },
-    // {
-    //     path: '/payment',
-    //     name: 'Payment',
-    //     component: () => import('@/components/Buys'),
-    //     meta: {
-    //         requiresAuth: false
-    //     }
-    // },
-    // {
-    //     path: '/task',
-    //     name: 'Task',
-    //     component: () => import('@/components/Task'),
-    //     meta: {
-    //         requiresAuth: false
-    //     }
-    // },
+    {
+        path: '/help',
+        name: 'Help',
+        component: () => import('@/components/Help'),
+        meta: {
+            requiresAuth: false
+        }
+    },
+    {
+        path: '/payment',
+        name: 'Payment',
+        component: () => import('@/components/Pay'),
+        meta: {
+            requiresAuth: false
+        }
+    },
     {
         path: '/task',
         name: 'Task',

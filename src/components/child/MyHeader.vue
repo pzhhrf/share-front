@@ -1,6 +1,6 @@
 <template>
-    <header id="topnav" class="defaultscroll sticky">
-        <div class="container">
+    <header id="topnav" :class="headerCls">
+        <b-container>
             <!-- Logo container-->
             <div>
                 <a class="logo" href="/">
@@ -44,19 +44,17 @@
                         <router-link :to="{ name: 'Task' }">Task</router-link>
                         <span class="menu-arrow"></span>
                     </li>
-                    <!-- <li>
-                        <router-link :to="{ name: 'Login' }">Docs</router-link>
+                    <li>
+                        <router-link :to="{ name: 'Payment' }">Pay</router-link>
                         <span class="menu-arrow"></span>
-                    </li> -->
-                    <!-- <li>
-                        <router-link :to="{ name: 'Login' }"
-                            >Contact</router-link
-                        >
+                    </li>
+                    <li>
+                        <router-link :to="{ name: 'Help' }">Help</router-link>
                         <span class="menu-arrow"></span>
-                    </li> -->
+                    </li>
                 </ul>
             </div>
-        </div>
+        </b-container>
         <template v-if="showLogin">
             <login @fatherMethod="emitLogin" :isLogin="isLoginPop"></login>
         </template>
@@ -68,14 +66,27 @@ export default {
     name: "MyHeader",
     components: { Login },
     props: [],
+    mounted() {
+        window.addEventListener("scroll", this.handleScroll);
+    },
     computed: {},
     data() {
         return {
             showLogin: false,
             isLoginPop: true,
+            headerCls: "defaultscroll sticky",
         };
     },
     methods: {
+        handleScroll() {
+            var scrollTop = window.scrollY;
+            console.log("xxx====", scrollTop);
+            if (scrollTop >= 50) {
+                this.headerCls = "defaultscroll sticky nav-sticky";
+            } else {
+                this.headerCls = "defaultscroll sticky";
+            }
+        },
         btnShowLogin(popReg) {
             this.showLogin = true;
             this.isLoginPop = popReg;

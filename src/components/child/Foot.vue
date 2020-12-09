@@ -62,7 +62,26 @@
 <script>
 export default {
     name: "HomePrice",
-    props: [],
-    computed: {},
+    props: { fixed: { type: Boolean, default: true } },
+    computed: {
+        bindFtCls() {
+            if (this.fixed) {
+                return "";
+            } else {
+                return "foot-abs";
+            }
+        },
+    },
+    data() {
+        return {};
+    },
+    methods: {},
 };
 </script>
+<style>
+.foot-abs {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+</style>
