@@ -172,13 +172,21 @@
                                             ></b-form-input>
                                         </b-col>
                                         <b-col>
-                                            <b-button
-                                                block
-                                                variant="primary"
-                                                @click="sendCaptcha"
-                                                :disabled="btnCaptchaStatus"
-                                                >{{ btnCaptcha }}</b-button
+                                            <b-overlay
+                                                :show="btnCaptchaShow"
+                                                rounded
+                                                opacity="0.6"
+                                                spinner-small
+                                                spinner-variant="primary"
                                             >
+                                                <b-button
+                                                    block
+                                                    variant="primary"
+                                                    @click="sendCaptcha"
+                                                    :disabled="btnCaptchaStatus"
+                                                    >{{ btnCaptcha }}</b-button
+                                                >
+                                            </b-overlay>
                                         </b-col>
                                     </b-row>
                                     <b-form-invalid-feedback
@@ -243,6 +251,11 @@
     </div>
 </template>
 <script>
+import request from "@/api/req.js";
+import md5 from "js-md5";
+import Cookies from "js-cookie";
+// import moment from "moment";
+import { CheckLogin } from "@/utils/validate.js";
 export default {
     name: "Login",
     props: ["showLogin", "isLogin"],
@@ -261,6 +274,7 @@ export default {
             },
             btnCaptcha: "Send",
             btnCaptchaStatus: false,
+            btnCaptchaShow: false,
             timer: null,
             countdown: 60,
         };
@@ -277,38 +291,132 @@ export default {
         },
     },
     methods: {
-        onLoginSubmit() {},
-        onLoginReset() {},
-        onRegisterSubmit() {},
-        onRegReset() {},
+        onLoginSubmit() {
+            var dict = {
+                email: this.loginForm.email,
+                password: md5(this.loginForm.password),
+            };
+            request
+                .postLogin(dict)
+                .then((res) => {
+                    if (res.code == 0) {
+                        this.showLogin = false;
+                        this.setLoginData(res.data);
+                        this.$router.push({
+                            path: "/task",
+                        });
+                    } else {
+                        this.$message.error("email or password error!");
+                    }
+                })
+                .catch((e) => {
+                    console.log(e);
+                    this.$message.error(this.$i18n.$t("network.error"));
+                });
+        },
+        onLoginReset() {
+            this.loginForm.email = "";
+            this.loginForm.password = "";
+        },
+        onRegisterSubmit() {
+            if (this.regForm.password != this.regForm.password2) {
+                this.$message.error(this.$i18n.$t("reg.pass.not.equal"));
+                return;
+            }
+            var dict = {
+                email: this.regForm.email,
+                password: this.regForm.password,
+                code: this.regForm.captcha,
+            };
+            request
+                .postReg(dict)
+                .then((res) => {
+                    if (res.code == 0) {
+                        this.setLoginData(res.data);
+                        this.$router.push({
+                            path: "/task",
+                        });
+                    } else {
+                        this.$message.error(res.msg);
+                    }
+                })
+                .catch((e) => {
+                    console.log(e);
+                    this.$message.error(this.$i18n.$t("network.error"));
+                });
+        },
+        onRegReset() {
+            this.regForm.email = "";
+            this.regForm.password = "";
+            this.regForm.password2 = "";
+        },
         sendCaptcha() {
-            if (this.regForm.email.trim() == "") {
+            var email = this.regForm.email.trim();
+            if (email == "") {
                 this.$message.error("input correct email");
                 return;
             }
-            if (!this.timer) {
-                this.timer = setInterval(() => {
-                    if (this.countdown > 0 && this.countdown <= 60) {
-                        this.countdown--;
-                        if (this.countdown !== 0) {
-                            this.btnCaptcha = "Resend(" + this.countdown + ")";
-                            this.btnCaptchaStatus = true;
-                        } else {
-                            clearInterval(this.timer);
-                            this.btnCaptcha = "Send";
-                            this.countdown = 60;
-                            this.timer = null;
-                            this.btnCaptchaStatus = false;
+            this.btnCaptchaShow = true;
+            let dict = {
+                type: 1,
+                email: email,
+            };
+            request
+                .postSendCode(dict)
+                .then((res) => {
+                    if (res.code == 0) {
+                        if (!this.timer) {
+                            this.timer = setInterval(() => {
+                                if (
+                                    this.countdown > 0 &&
+                                    this.countdown <= 60
+                                ) {
+                                    this.countdown--;
+                                    if (this.countdown !== 0) {
+                                        this.btnCaptchaShow = false;
+                                        this.btnCaptcha =
+                                            "Resend(" + this.countdown + ")";
+                                        this.btnCaptchaStatus = true;
+                                    } else {
+                                        this.btnCaptchaShow = false;
+                                        clearInterval(this.timer);
+                                        this.btnCaptcha = "Send";
+                                        this.countdown = 60;
+                                        this.timer = null;
+                                        this.btnCaptchaStatus = false;
+                                    }
+                                }
+                            }, 1000);
                         }
+                    } else {
+                        this.btnCaptchaStatus = false;
+                        this.$message.error(res.msg);
                     }
-                }, 1000);
-            }
+                })
+                .catch((e) => {
+                    console.log(e);
+                    this.$message.error(this.$i18n.$t("network.error"));
+                });
         },
         close() {
             this.$emit("fatherMethod", { action: "close" });
         },
         switchReg(status) {
             this.$emit("fatherMethod", { action: "switch", value: !status });
+        },
+        getUserInfo() {
+            request
+                .getUserStatus()
+                .then((res) => {})
+                .catch((e) => {
+                    console.log(e);
+                    this.$message.error(this.$i18n.$t("network.error"));
+                });
+        },
+        setLoginData(data) {
+            Cookies.set("userinfo", JSON.stringify(data), {
+                expires: new Date(moment.unix(data.expire)),
+            });
         },
     },
 };

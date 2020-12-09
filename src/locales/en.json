@@ -37,5 +37,7 @@
     "login.forget": "Forgot password ?",
     "reg.title": "Signup",
     "reg.captcha": "Captcha",
-    "reg.register": "Register"
+    "reg.register": "Register",
+    "network.error": "Service Unavailable",
+    "reg.pass.not.equal": "Password is not equal"
 }

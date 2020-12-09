@@ -80,7 +80,6 @@ export default {
     methods: {
         handleScroll() {
             var scrollTop = window.scrollY;
-            console.log("xxx====", scrollTop);
             if (scrollTop >= 50) {
                 this.headerCls = "defaultscroll sticky nav-sticky";
             } else {
