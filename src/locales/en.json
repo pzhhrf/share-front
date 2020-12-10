@@ -39,5 +39,8 @@
     "reg.captcha": "Captcha",
     "reg.register": "Register",
     "network.error": "Service Unavailable",
-    "reg.pass.not.equal": "Password is not equal"
+    "reg.pass.not.equal": "Password is not equal",
+    "faq.desc": "Question &amp; Answer about hosting services",
+    "faq.nav.1": "Download Questions",
+    "faq.nav.2": "General Questions"
 }

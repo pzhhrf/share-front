@@ -84,12 +84,19 @@
                                     </div>
                                 </b-col>
                             </b-form-row>
-
-                            <b-form-group label-cols="12">
-                                <button class="btn btn-primary w-100">
-                                    {{ $t("login.signin") }}
-                                </button>
-                            </b-form-group>
+                            <b-overlay
+                                :show="btnLoginLoading"
+                                rounded
+                                opacity="0.6"
+                                spinner-small
+                                spinner-variant="primary"
+                            >
+                                <b-form-group label-cols="12">
+                                    <button class="btn btn-primary w-100">
+                                        {{ $t("login.signin") }}
+                                    </button>
+                                </b-form-group>
+                            </b-overlay>
                             <div class="col-12 text-center">
                                 <p class="mb-0 mt-3">
                                     <small class="text-dark mr-2"
@@ -171,14 +178,14 @@
                                                 trim
                                             ></b-form-input>
                                         </b-col>
-                                        <b-col>
-                                            <b-overlay
-                                                :show="btnCaptchaShow"
-                                                rounded
-                                                opacity="0.6"
-                                                spinner-small
-                                                spinner-variant="primary"
-                                            >
+                                        <b-overlay
+                                            :show="btnCaptchaShow"
+                                            rounded
+                                            opacity="0.6"
+                                            spinner-small
+                                            spinner-variant="primary"
+                                        >
+                                            <b-col>
                                                 <b-button
                                                     block
                                                     variant="primary"
@@ -186,8 +193,8 @@
                                                     :disabled="btnCaptchaStatus"
                                                     >{{ btnCaptcha }}</b-button
                                                 >
-                                            </b-overlay>
-                                        </b-col>
+                                            </b-col>
+                                        </b-overlay>
                                     </b-row>
                                     <b-form-invalid-feedback
                                         class="invalid-feedback d-block"
@@ -225,11 +232,19 @@
                                     maxlength="20"
                                 ></b-form-input>
                             </b-form-group>
-                            <b-form-group label-cols="12">
-                                <button class="btn btn-primary w-100">
-                                    {{ $t("reg.register") }}
-                                </button>
-                            </b-form-group>
+                            <b-overlay
+                                :show="btnRegisterLoading"
+                                rounded
+                                opacity="0.6"
+                                spinner-small
+                                spinner-variant="primary"
+                            >
+                                <b-form-group label-cols="12">
+                                    <button class="btn btn-primary w-100">
+                                        {{ $t("reg.register") }}
+                                    </button>
+                                </b-form-group>
+                            </b-overlay>
                             <div class="col-12 text-center">
                                 <p class="mb-0 mt-3">
                                     <small class="text-dark mr-2"
@@ -254,7 +269,7 @@
 import request from "@/api/req.js";
 import md5 from "js-md5";
 import Cookies from "js-cookie";
-// import moment from "moment";
+import moment from "moment";
 import { CheckLogin } from "@/utils/validate.js";
 export default {
     name: "Login",
@@ -264,7 +279,7 @@ export default {
             loginForm: {
                 email: "",
                 password: "",
-                remember: "",
+                remember: false,
             },
             regForm: {
                 email: "",
@@ -277,6 +292,8 @@ export default {
             btnCaptchaShow: false,
             timer: null,
             countdown: 60,
+            btnRegisterLoading: false,
+            btnLoginLoading: false,
         };
     },
     computed: {
@@ -290,26 +307,40 @@ export default {
             return "Please enter password.";
         },
     },
+    mounted() {
+        var e = Cookies.get("email");
+        var p = Cookies.get("password");
+        if (e != null && e != undefined) {
+            this.loginForm.email = e;
+        }
+        if (p != null && e != undefined) {
+            this.loginForm.password = p;
+            this.loginForm.remember = true;
+        }
+    },
     methods: {
         onLoginSubmit() {
             var dict = {
                 email: this.loginForm.email,
                 password: md5(this.loginForm.password),
             };
+            this.btnLoginLoading = true;
             request
                 .postLogin(dict)
                 .then((res) => {
+                    this.btnLoginLoading = false;
                     if (res.code == 0) {
-                        this.showLogin = false;
                         this.setLoginData(res.data);
+                        this.close();
                         this.$router.push({
                             path: "/task",
                         });
                     } else {
-                        this.$message.error("email or password error!");
+                        this.$message.error("email or password error !");
                     }
                 })
                 .catch((e) => {
+                    this.btnLoginLoading = false;
                     console.log(e);
                     this.$message.error(this.$i18n.$t("network.error"));
                 });
@@ -328,11 +359,14 @@ export default {
                 password: this.regForm.password,
                 code: this.regForm.captcha,
             };
+            this.btnRegisterLoading = true;
             request
                 .postReg(dict)
                 .then((res) => {
+                    this.btnRegisterLoading = false;
                     if (res.code == 0) {
                         this.setLoginData(res.data);
+                        this.close();
                         this.$router.push({
                             path: "/task",
                         });
@@ -341,6 +375,7 @@ export default {
                     }
                 })
                 .catch((e) => {
+                    this.btnRegisterLoading = false;
                     console.log(e);
                     this.$message.error(this.$i18n.$t("network.error"));
                 });
@@ -414,6 +449,10 @@ export default {
                 });
         },
         setLoginData(data) {
+            if (this.loginForm.remember) {
+                Cookies.set("email", this.loginForm.email);
+                Cookies.set("password", this.loginForm.password);
+            }
             Cookies.set("userinfo", JSON.stringify(data), {
                 expires: new Date(moment.unix(data.expire)),
             });
