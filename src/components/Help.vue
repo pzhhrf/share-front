@@ -75,6 +75,7 @@
                                         class="border-0 bg-light p-3 pr-5"
                                     >
                                         <h6 class="title mb-0">Features</h6>
+                                        <span class="mdi mdi-image-edit"></span>
                                     </b-card-header>
                                 </a>
                                 <b-collapse
@@ -146,4 +147,7 @@ export default {
 };
 </script>
 <style>
+.testx{
+    content: '\F415';
+}
 </style>
