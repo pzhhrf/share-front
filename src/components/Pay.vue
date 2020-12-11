@@ -1,7 +1,7 @@
 <template>
     <div>
         <MyHeader></MyHeader>
-        <section class="bg-half-pay bg-primary">
+        <section class="bg-half-260 bg-primary">
             <div class="bg-overlay"></div>
             <b-container>
                 <b-row>
@@ -13,8 +13,18 @@
                         >
                         </b-form-input>
                     </b-col>
-                    <b-col align-self="center">
-                        <b-button variant="primary">Recharge</b-button>
+                    <b-col sm="2" align-self="center">
+                        <b-overlay
+                            :show="chargeLoading"
+                            rounded
+                            opacity="0.6"
+                            spinner-small
+                            spinner-variant="primary"
+                        >
+                            <b-button variant="primary" @click="activeRedeem">
+                                Recharge</b-button
+                            >
+                        </b-overlay>
                     </b-col>
                 </b-row>
             </b-container>
@@ -25,24 +35,41 @@
 <script>
 import MyHeader from "./child/MyHeader.vue";
 import Foot from "./child/Foot.vue";
+import request from "@/api/req.js";
 export default {
     name: "Task",
     components: { MyHeader, Foot },
     data() {
         return {
             code: null,
+            chargeLoading: false,
         };
+    },
+    methods: {
+        activeRedeem() {
+            if (this.code == null || this.code == "") {
+                this.$message.error(this.$t("pay.code"));
+                return;
+            }
+            this.chargeLoading = true;
+            var dict = { code: this.code };
+            request
+                .addRedeem(dict)
+                .then((res) => {
+                    this.chargeLoading = false;
+                    if (res.code == 0) {
+                        this.$message.success(this.$t("pay.success"));
+                        this.$router.push({ path: "/task" });
+                    }
+                })
+                .catch((e) => {
+                    console.log(e);
+                    this.chargeLoading = false;
+                    this.$message.error(this.$t("network.error"));
+                });
+        },
     },
 };
 </script>
 <style>
-.bg-half-pay {
-    padding: 300px 0;
-    background-size: cover;
-    -ms-flex-item-align: center;
-    -ms-grid-row-align: center;
-    align-self: center;
-    position: relative;
-    background-position: center center;
-}
 </style>

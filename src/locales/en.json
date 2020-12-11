@@ -42,5 +42,7 @@
     "reg.pass.not.equal": "Password is not equal",
     "faq.desc": "Question &amp; Answer about hosting services",
     "faq.nav.1": "Download Questions",
-    "faq.nav.2": "General Questions"
+    "faq.nav.2": "General Questions",
+    "pay.code": "input correct redeem code",
+    "pay.success": "success"
 }

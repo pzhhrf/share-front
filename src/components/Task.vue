@@ -1,7 +1,7 @@
 <template>
     <div>
         <MyHeader></MyHeader>
-        <section class="bg-half-170 bg-primary">
+        <section class="bg-half-260 bg-primary">
             <div class="bg-overlay"></div>
             <b-container>
                 <b-row>
@@ -16,7 +16,14 @@
                         </b-form-textarea>
                     </b-col>
                     <b-col align-self="center">
-                        <b-button variant="primary" size="lg">Extract</b-button>
+                        <b-overlay :show="extLoading">
+                            <b-button
+                                variant="primary"
+                                size="lg"
+                                @click="parseUrl"
+                                >Extract</b-button
+                            >
+                        </b-overlay>
                     </b-col>
                 </b-row>
             </b-container>
@@ -42,11 +49,19 @@
                         </div>
                     </template>
                     <template #cell(op)="data">
-                        <b-button
-                            v-if="data.item.status == 1"
-                            @click="parseUrl(data)"
-                            >Extract</b-button
+                        <b-overlay
+                            :show="getExtractStatus(data)"
+                            rounded
+                            opacity="0.6"
+                            spinner-small
+                            spinner-variant="primary"
                         >
+                            <b-button
+                                v-if="data.item.status == 1"
+                                @click="parseUrl(data)"
+                                >Extract</b-button
+                            >
+                        </b-overlay>
                     </template>
                 </b-table>
             </b-container>
@@ -111,6 +126,7 @@ export default {
         return {
             extract_url: "",
             extBusy: false,
+            extLoading: false,
             ext_fields: [
                 { key: "file_name", label: "File Name" },
                 { key: "size", label: "Size" },
@@ -134,7 +150,57 @@ export default {
         };
     },
     methods: {
-        parseUrl(data) {},
+        getExtractStatus(data) {
+            if (data.ext_status) {
+                return data.ext_status;
+            }
+            return false;
+        },
+        parseUrl() {
+            if (this.extract_url == null) {
+                this.$message.error(this.$i18n.$t("task.ext.null"));
+                return;
+            }
+            var url = this.extract_url.replace(/^\s+|\s+$/g, "");
+            if (url == undefined || url == "") {
+                this.$message.error(this.$i18n.$t("task.ext.null"));
+                return;
+            }
+            var array = new Array();
+            array.push(url);
+            let dict = { list: array };
+            this.extLoading = true;
+            request
+                .parseUrl(dict)
+                .then((res) => {
+                    this.extLoading = false;
+                    if (res.code == 0) {
+                        this.parseData = res.data;
+                    } else {
+                        this.$message.error("提取失败");
+                    }
+                })
+                .catch((e) => {
+                    console.log(e);
+                    this.extLoading = false;
+                });
+        },
+        addTask(row) {
+            let dict = { id: row.id };
+            request
+                .addTask(dict)
+                .then((res) => {
+                    if (res.code == 0) {
+                        this.$message.error("添加任务成功");
+                    } else {
+                        this.$message.error("添加任务失败");
+                    }
+                })
+                .catch((e) => {
+                    console.log(e);
+                    this.extLoading = false;
+                });
+        },
         delDownload(data) {},
         onCopySuc() {
             this.$message.success("copy success");

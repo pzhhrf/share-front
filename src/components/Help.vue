@@ -64,65 +64,15 @@
                         <div class="session-title" id="down">
                             <h4>{{ $t("faq.nav.1") }}</h4>
                         </div>
-                        <div class="accordion" id="accordionExample">
-                            <b-card no-body class="border-0 rounded mb-2">
-                                <a
-                                    data-toggle="collapse"
-                                    v-b-toggle.down-1
-                                    class="faq position-relative"
-                                >
-                                    <b-card-header
-                                        class="border-0 bg-light p-3 pr-5"
-                                    >
-                                        <h6 class="title mb-0">Features</h6>
-                                        <span class="mdi mdi-image-edit"></span>
-                                    </b-card-header>
-                                </a>
-                                <b-collapse
-                                    id="down-1"
-                                    accordion="down-1"
-                                    visible
-                                >
-                                    <b-card-body
-                                        id="down-1"
-                                        data-parent="#accordionExample"
-                                        class="p-4"
-                                    >
-                                        <ul class="list-unstyled mb-0">
-                                            <li class="text-muted my-2">
-                                                <svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    width="24"
-                                                    height="24"
-                                                    viewBox="0 0 24 24"
-                                                    fill="none"
-                                                    stroke="currentColor"
-                                                    stroke-width="2"
-                                                    stroke-linecap="round"
-                                                    stroke-linejoin="round"
-                                                    class="feather feather-arrow-right-circle fea icon-ex-md text-primary mr-2"
-                                                >
-                                                    <circle
-                                                        cx="12"
-                                                        cy="12"
-                                                        r="10"
-                                                    ></circle>
-                                                    <polyline
-                                                        points="12 16 16 12 12 8"
-                                                    ></polyline>
-                                                    <line
-                                                        x1="8"
-                                                        y1="12"
-                                                        x2="16"
-                                                        y2="12"
-                                                    ></line></svg
-                                                >CentOS 6/CentOS 7/Ubuntu
-                                                16.04/Fedora 23/Debian 8
-                                            </li>
-                                        </ul>
-                                    </b-card-body>
-                                </b-collapse>
-                            </b-card>
+
+                        <div class="accordion">
+                            <HelpList :desc="downDesc"></HelpList>
+                        </div>
+                        <div class="session-title" id="general">
+                            <h4>{{ $t("faq.nav.2") }}</h4>
+                        </div>
+                        <div class="accordion">
+                            <HelpList :desc="generalDesc"></HelpList>
                         </div>
                     </b-col>
                 </b-row>
@@ -135,19 +85,36 @@
 import MyHeader from "./child/MyHeader.vue";
 import Foot from "./child/Foot.vue";
 import PageBg from "@/assets/images/page.png";
+import HelpList from "./child/HelpList.vue";
 export default {
     name: "Help",
-    components: { MyHeader, Foot },
+    components: { MyHeader, Foot, HelpList },
     computed: {},
     data() {
         return {
             pageBg: PageBg,
+            downDesc: [
+                {
+                    title: "Features",
+                    id: "down-1",
+                    visible: true,
+                    desc: ["CentOS 6/CentOS 7/Ubuntu 16.04/Fedora 23/Debian 8"],
+                },
+            ],
+            generalDesc: [
+                {
+                    title: "General",
+                    id: "general-1",
+                    visible: true,
+                    desc: ["CentOS 6/CentOS 7/Ubuntu 16.04/Fedora 23/Debian 8"],
+                },
+            ],
         };
     },
 };
 </script>
 <style>
-.testx{
-    content: '\F415';
+.testx {
+    content: "\F415";
 }
 </style>

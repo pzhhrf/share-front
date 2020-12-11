@@ -15,7 +15,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 //引入自己的css
 import './assets/css/style.css';
 import './assets/css/default.css';
-import '@mdi/font';
+import '@mdi/font/css/materialdesignicons.css';
 //引入element-ui
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
