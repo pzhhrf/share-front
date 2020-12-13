@@ -13,7 +13,7 @@
                         >
                         </b-form-input>
                     </b-col>
-                    <b-col sm="2" align-self="center">
+                    <b-col col sm="2" align-self="center">
                         <b-overlay
                             :show="chargeLoading"
                             rounded
@@ -21,7 +21,11 @@
                             spinner-small
                             spinner-variant="primary"
                         >
-                            <b-button variant="primary" @click="activeRedeem">
+                            <b-button
+                                block
+                                variant="primary"
+                                @click="activeRedeem"
+                            >
                                 Recharge</b-button
                             >
                         </b-overlay>
@@ -60,6 +64,8 @@ export default {
                     if (res.code == 0) {
                         this.$message.success(this.$t("pay.success"));
                         this.$router.push({ path: "/task" });
+                    } else {
+                        this.$message.error(res.msg);
                     }
                 })
                 .catch((e) => {

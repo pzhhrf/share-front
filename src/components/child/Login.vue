@@ -274,11 +274,12 @@ import { CheckLogin } from "@/utils/validate.js";
 export default {
     name: "Login",
     props: ["showLogin", "isLogin"],
+    inject: ["reload"],
     data() {
         return {
             loginForm: {
-                email: "",
-                password: "",
+                email: "test@163.com",
+                password: "ppp@12345",
                 remember: false,
             },
             regForm: {
@@ -332,6 +333,7 @@ export default {
                     if (res.code == 0) {
                         this.setLoginData(res.data);
                         this.close();
+                        this.reload();
                         this.$router.push({
                             path: "/task",
                         });
@@ -342,7 +344,7 @@ export default {
                 .catch((e) => {
                     this.btnLoginLoading = false;
                     console.log(e);
-                    this.$message.error(this.$i18n.$t("network.error"));
+                    this.$message.error(this.$t("network.error"));
                 });
         },
         onLoginReset() {
@@ -351,7 +353,7 @@ export default {
         },
         onRegisterSubmit() {
             if (this.regForm.password != this.regForm.password2) {
-                this.$message.error(this.$i18n.$t("reg.pass.not.equal"));
+                this.$message.error(this.$t("reg.pass.not.equal"));
                 return;
             }
             var dict = {
@@ -377,7 +379,7 @@ export default {
                 .catch((e) => {
                     this.btnRegisterLoading = false;
                     console.log(e);
-                    this.$message.error(this.$i18n.$t("network.error"));
+                    this.$message.error(this.$t("network.error"));
                 });
         },
         onRegReset() {
@@ -430,7 +432,7 @@ export default {
                 })
                 .catch((e) => {
                     console.log(e);
-                    this.$message.error(this.$i18n.$t("network.error"));
+                    this.$message.error(this.$t("network.error"));
                 });
         },
         close() {
@@ -445,7 +447,7 @@ export default {
                 .then((res) => {})
                 .catch((e) => {
                     console.log(e);
-                    this.$message.error(this.$i18n.$t("network.error"));
+                    this.$message.error(this.$t("network.error"));
                 });
         },
         setLoginData(data) {

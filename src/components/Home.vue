@@ -106,9 +106,32 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="spt-li">
+                <!-- <b-card-group deck>
                         <template v-for="items in sptData">
+                            <b-card no-gutters no-body :key="items.index">
+                                <div class="spt-li">
+                                    <div
+                                        class="line"
+                                        v-for="item in items"
+                                        :key="item.id"
+                                    >
+                                        <div class="img">
+                                            <img :src="item.icon" />
+                                        </div>
+                                        <div class="title">
+                                            {{ item.display }}
+                                        </div>
+                                        <div class="desc">
+                                            {{ item.example }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </b-card>
+                        </template>
+                    </b-card-group> -->
+                <div class="row">
+                    <template v-for="items in sptData">
+                        <div class="spt-li" :key="items.index">
                             <div
                                 class="line"
                                 v-for="item in items"
@@ -118,8 +141,8 @@
                                 <div class="title">{{ item.display }}</div>
                                 <div class="desc">{{ item.example }}</div>
                             </div>
-                        </template>
-                    </div>
+                        </div>
+                    </template>
                 </div>
             </div>
         </section>
@@ -172,17 +195,18 @@ export default {
     background: url(../assets/images/bg1.png) top, center;
 }
 .spt-li {
-    width: 312px;
+    width: 350px;
     height: 380px;
     float: left;
     margin: 0 10px;
     background: #fff;
     border: 1px solid #e2e7f0;
     border-radius: 10px;
-    padding-top: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 .spt-li .line {
-    width: 312px;
+    width: 350px;
     height: 60px;
     position: relative;
 }

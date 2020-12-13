@@ -44,5 +44,14 @@
     "faq.nav.1": "Download Questions",
     "faq.nav.2": "General Questions",
     "pay.code": "input correct redeem code",
-    "pay.success": "success"
+    "pay.success": "success",
+    "task.ext.null": "input correct extract url",
+    "task.ext.suc": "Success",
+    "task.ext.fail": "Failed",
+    "task.down.speed": "Speed: ",
+    "task.down.percent": "Percent: ",
+    "task.down.status.suc": "Success",
+    "task.down.status.fail": "Failed",
+    "task.down.status.expire": "Expired",
+    "task.down.addr": "Address"
 }
