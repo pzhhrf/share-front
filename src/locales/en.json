@@ -35,6 +35,7 @@
     "login.signin": "Sign in",
     "login.signup": "Sign up",
     "login.forget": "Forgot password ?",
+    "login.session.out": "Please log in first",
     "reg.title": "Signup",
     "reg.captcha": "Captcha",
     "reg.register": "Register",

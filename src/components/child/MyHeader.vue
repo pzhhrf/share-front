@@ -18,19 +18,33 @@
                     />
                 </a>
             </div>
+
             <div class="buy-button">
-                <a
-                    href="#"
-                    class="text-dark h6 mr-3 login"
-                    @click="btnShowLogin(true)"
-                    >Login</a
-                >
-                <a
-                    href="#"
-                    class="text-dark h6 mr-3 login"
-                    @click="btnShowLogin(false)"
-                    >Register</a
-                >
+                <template v-if="isLogined">
+                    <div>
+                        <b-dropdown right text="Lang" class="m-1">
+                            <b-dropdown-item>Item 1</b-dropdown-item>
+                            <b-dropdown-item>Item 2</b-dropdown-item>
+                            <b-dropdown-item>Item 3</b-dropdown-item>
+                        </b-dropdown>
+                        <span class="menu-arrow"></span>
+                        <b-avatar size="3em">Hello<br />World</b-avatar>
+                    </div>
+                </template>
+                <template v-else>
+                    <a
+                        href="#"
+                        class="text-dark h6 mr-3 login"
+                        @click="btnShowLogin(true)"
+                        >Login</a
+                    >
+                    <a
+                        href="#"
+                        class="text-dark h6 mr-3 login"
+                        @click="btnShowLogin(false)"
+                        >Register</a
+                    >
+                </template>
             </div>
             <!--end login button-->
             <!-- End Logo container-->
@@ -62,6 +76,8 @@
 </template>
 <script>
 import Login from "./Login.vue";
+import { CheckLogin } from "@/utils/validate.js";
+import { bus } from "@/utils/bus.js";
 export default {
     name: "MyHeader",
     components: { Login },
@@ -69,11 +85,21 @@ export default {
     mounted() {
         window.addEventListener("scroll", this.handleScroll);
     },
+    created() {
+        bus.$on("openLogin", (value) => {
+            this.showLogin = true;
+        });
+        var info = CheckLogin();
+        if (info) {
+            this.isLogined = true;
+        }
+    },
     computed: {},
     data() {
         return {
             showLogin: false,
             isLoginPop: true,
+            isLogined: false,
             headerCls: "defaultscroll sticky",
         };
     },

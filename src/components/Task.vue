@@ -148,7 +148,7 @@ import request from "@/api/req.js";
 import { formatDate } from "@/filter";
 import { CheckLogin } from "@/utils/validate.js";
 import i18n from "../i18n.js";
-
+import { bus } from "@/utils/bus.js";
 export default {
     name: "Task",
     components: { MyHeader, Foot },
@@ -330,6 +330,10 @@ export default {
                     if (res.code == 0 && res.data.content) {
                         this.totalRows = res.data.total;
                         this.down_items = this.dealTable(res.data.content);
+                    }
+                    if (res.code == 200002) {
+                        this.$message.error(this.$t("login.session.out"));
+                        bus.$emit("openLogin", true);
                     }
                 })
                 .catch((e) => {
