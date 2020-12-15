@@ -22,13 +22,31 @@
             <div class="buy-button">
                 <template v-if="isLogined">
                     <div>
-                        <b-dropdown right text="Lang" class="m-1">
-                            <b-dropdown-item>Item 1</b-dropdown-item>
-                            <b-dropdown-item>Item 2</b-dropdown-item>
-                            <b-dropdown-item>Item 3</b-dropdown-item>
+                        <b-dropdown
+                            text="Lang"
+                            class="m-1"
+                            variant="light"
+                            size="sm"
+                        >
+                            <b-dropdown-item key="a" @click="switchLang"
+                                >Item 1</b-dropdown-item
+                            >
+                            <b-dropdown-item key="b" @click="switchLang"
+                                >Item 2</b-dropdown-item
+                            >
+                            <b-dropdown-item key="c" @click="switchLang"
+                                >Item 3</b-dropdown-item
+                            >
                         </b-dropdown>
-                        <span class="menu-arrow"></span>
-                        <b-avatar size="3em">Hello<br />World</b-avatar>
+                        <b-dropdown size="sm" class="bg-light" variant="light">
+                            <template #button-content>
+                                test@email.com
+                                <br />
+                                剩余流量:1mb
+                            </template>
+                            <b-dropdown-item>My Order</b-dropdown-item>
+                            <b-dropdown-item>Log out</b-dropdown-item>
+                        </b-dropdown>
                     </div>
                 </template>
                 <template v-else>
@@ -78,6 +96,8 @@
 import Login from "./Login.vue";
 import { CheckLogin } from "@/utils/validate.js";
 import { bus } from "@/utils/bus.js";
+import i18n from "../../i18n.js";
+import Cookies from "js-cookie";
 export default {
     name: "MyHeader",
     components: { Login },
@@ -100,6 +120,7 @@ export default {
             showLogin: false,
             isLoginPop: true,
             isLogined: false,
+            langSelected: null,
             headerCls: "defaultscroll sticky",
         };
     },
@@ -124,6 +145,20 @@ export default {
                 this.isLoginPop = dict.value;
             }
         },
+        switchLang(key) {
+            i18n.locale = "zh";
+            Cookies.set("lang", "zh");
+            // this.$message(key);
+        },
     },
 };
 </script>
+<style scoped>
+.wrap-dropdown {
+    width: auto;
+    min-width: 0;
+}
+.wrap-dropdown * {
+    white-space: normal;
+}
+</style>
