@@ -23,29 +23,30 @@
                 <template v-if="isLogined">
                     <div>
                         <b-dropdown
-                            text="Lang"
-                            class="m-1"
+                            :text="currentLang"
+                            class="m-1 switch-lang"
                             variant="light"
                             size="sm"
                         >
-                            <b-dropdown-item key="a" @click="switchLang"
-                                >Item 1</b-dropdown-item
+                            <b-dropdown-item-btn @click="switchLang('en')"
+                                >En</b-dropdown-item-btn
                             >
-                            <b-dropdown-item key="b" @click="switchLang"
-                                >Item 2</b-dropdown-item
-                            >
-                            <b-dropdown-item key="c" @click="switchLang"
-                                >Item 3</b-dropdown-item
+                            <b-dropdown-item-btn @click="switchLang('zh')"
+                                >Zh</b-dropdown-item-btn
                             >
                         </b-dropdown>
                         <b-dropdown size="sm" class="bg-light" variant="light">
                             <template #button-content>
-                                test@email.com
+                                {{ user.email }}
                                 <br />
-                                剩余流量:1mb
+                                {{ $t("head.band.left") }} {{ left }}
                             </template>
-                            <b-dropdown-item>My Order</b-dropdown-item>
-                            <b-dropdown-item>Log out</b-dropdown-item>
+                            <b-dropdown-item to="/order"
+                                >My Order</b-dropdown-item
+                            >
+                            <b-dropdown-item-btn @click="logout"
+                                >Log out</b-dropdown-item-btn
+                            >
                         </b-dropdown>
                     </div>
                 </template>
@@ -98,6 +99,8 @@ import { CheckLogin } from "@/utils/validate.js";
 import { bus } from "@/utils/bus.js";
 import i18n from "../../i18n.js";
 import Cookies from "js-cookie";
+import request from "@/api/req.js";
+import { formatSize } from "@/filter/index.js";
 export default {
     name: "MyHeader",
     components: { Login },
@@ -109,9 +112,18 @@ export default {
         bus.$on("openLogin", (value) => {
             this.showLogin = true;
         });
+        bus.$on("userstatus", () => {
+            this.getUserStatus();
+        });
         var info = CheckLogin();
         if (info) {
             this.isLogined = true;
+            this.user = info;
+            this.getUserStatus();
+        }
+        let lang = Cookies.get("lang");
+        if (lang != undefined) {
+            this.currentLang = lang;
         }
     },
     computed: {},
@@ -121,6 +133,9 @@ export default {
             isLoginPop: true,
             isLogined: false,
             langSelected: null,
+            currentLang: "Lang",
+            user: {},
+            left: 0,
             headerCls: "defaultscroll sticky",
         };
     },
@@ -146,19 +161,32 @@ export default {
             }
         },
         switchLang(key) {
-            i18n.locale = "zh";
-            Cookies.set("lang", "zh");
-            // this.$message(key);
+            i18n.locale = key;
+            this.currentLang = key;
+            Cookies.set("lang", key);
+        },
+        logout() {
+            Cookies.remove("userinfo");
+            this.$router.push({
+                path: "/",
+            });
+        },
+        getUserStatus() {
+            if (!this.user) {
+                return;
+            }
+            request.getUserStatus().then((res) => {
+                if (res.code == 0 && res.data) {
+                    this.left = formatSize(res.data.permanent_balance);
+                }
+            });
         },
     },
 };
 </script>
-<style scoped>
-.wrap-dropdown {
-    width: auto;
-    min-width: 0;
-}
-.wrap-dropdown * {
-    white-space: normal;
+<style >
+.switch-lang .dropdown-menu {
+    min-width: 5rem;
+    overflow-y: auto;
 }
 </style>

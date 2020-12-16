@@ -271,6 +271,7 @@ import md5 from "js-md5";
 import Cookies from "js-cookie";
 import moment from "moment";
 import { CheckLogin } from "@/utils/validate.js";
+import { bus } from "@/utils/bus.js";
 export default {
     name: "Login",
     props: ["showLogin", "isLogin"],
@@ -334,6 +335,7 @@ export default {
                         this.setLoginData(res.data);
                         this.close();
                         this.reload();
+                        bus.$emit('')
                         this.$router.push({
                             path: "/task",
                         });
@@ -369,6 +371,7 @@ export default {
                     if (res.code == 0) {
                         this.setLoginData(res.data);
                         this.close();
+
                         this.$router.push({
                             path: "/task",
                         });
