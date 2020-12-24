@@ -338,6 +338,7 @@ export default {
                 })
                 .catch((e) => {
                     console.log(e);
+                    this.downBusy = false;
                     this.$message.error(this.$t("network.error"));
                 });
         },
