@@ -1,5 +1,5 @@
 <template>
-    <header id="topnav" :class="headerCls">
+    <header id="topnav" :class="headerLocalCls">
         <b-container>
             <!-- Logo container-->
             <div>
@@ -41,9 +41,9 @@
                                 <br />
                                 {{ $t("head.band.left") }} {{ left }}
                             </template>
-                            <b-dropdown-item to="/order"
+                            <!-- <b-dropdown-item to="/order"
                                 >My Order</b-dropdown-item
-                            >
+                            > -->
                             <b-dropdown-item-btn @click="logout"
                                 >Log out</b-dropdown-item-btn
                             >
@@ -55,34 +55,42 @@
                         href="#"
                         class="text-dark h6 mr-3 login"
                         @click="btnShowLogin(true)"
-                        >Login</a
+                        >{{ $t("btn.login") }}</a
                     >
                     <a
                         href="#"
                         class="text-dark h6 mr-3 login"
                         @click="btnShowLogin(false)"
-                        >Register</a
+                        >{{ $t("btn.register") }}</a
                     >
                 </template>
             </div>
             <!--end login button-->
             <!-- End Logo container-->
-            <div id="navigation">
+            <div id="navigation" class="active">
                 <ul class="navigation-menu nav-light">
                     <li>
-                        <router-link :to="{ name: 'Home' }">Home</router-link>
+                        <router-link :to="{ name: 'Home' }">{{
+                            $t("link.home")
+                        }}</router-link>
                         <span class="menu-arrow"></span>
                     </li>
                     <li>
-                        <router-link :to="{ name: 'Task' }">Task</router-link>
+                        <router-link :to="{ name: 'Task' }">{{
+                            $t("link.task")
+                        }}</router-link>
                         <span class="menu-arrow"></span>
                     </li>
                     <li>
-                        <router-link :to="{ name: 'Payment' }">Pay</router-link>
+                        <router-link :to="{ name: 'Payment' }">{{
+                            $t("link.pay")
+                        }}</router-link>
                         <span class="menu-arrow"></span>
                     </li>
                     <li>
-                        <router-link :to="{ name: 'Help' }">Help</router-link>
+                        <router-link :to="{ name: 'Help' }">{{
+                            $t("link.help")
+                        }}</router-link>
                         <span class="menu-arrow"></span>
                     </li>
                 </ul>
@@ -103,8 +111,11 @@ import request from "@/api/req.js";
 import { formatSize } from "@/filter/index.js";
 export default {
     name: "MyHeader",
+    props: {
+        headerCls: { default: "defaultscroll sticky" },
+        enableScroll: { default: true },
+    },
     components: { Login },
-    props: [],
     mounted() {
         window.addEventListener("scroll", this.handleScroll);
     },
@@ -136,16 +147,18 @@ export default {
             currentLang: "Lang",
             user: {},
             left: 0,
-            headerCls: "defaultscroll sticky",
+            headerLocalCls: this.headerCls,
         };
     },
     methods: {
         handleScroll() {
             var scrollTop = window.scrollY;
-            if (scrollTop >= 50) {
-                this.headerCls = "defaultscroll sticky nav-sticky";
-            } else {
-                this.headerCls = "defaultscroll sticky";
+            if (this.enableScroll) {
+                if (scrollTop >= 50) {
+                    this.headerLocalCls = "defaultscroll sticky nav-sticky";
+                } else {
+                    this.headerLocalCls = "defaultscroll sticky";
+                }
             }
         },
         btnShowLogin(popReg) {

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <MyHeader></MyHeader>
+        <MyHeader :headerCls="headerText" :enableScroll="false"></MyHeader>
         <section
             class="bg-half-170 d-table w-100 bg-light"
             :style="{ background: 'url(' + pageBg + ') top center' }"
@@ -36,7 +36,7 @@
                 </svg>
             </div>
         </div>
-        <section class="session">
+        <section class="help-section">
             <b-container>
                 <b-row>
                     <b-col class="col-lg-4 col-md-5 col-12 d-none d-md-block">
@@ -93,12 +93,17 @@ export default {
     data() {
         return {
             pageBg: PageBg,
+            headerText: "defaultscroll sticky nav-sticky",
             downDesc: [
                 {
                     title: "Features",
                     id: "down-1",
                     visible: true,
-                    desc: ["CentOS 6/CentOS 7/Ubuntu 16.04/Fedora 23/Debian 8"],
+                    desc: [
+                        this.$t("help.fea.1"),
+                        this.$t("help.fea.2"),
+                        this.$t("help.fea.3"),
+                    ],
                 },
             ],
             generalDesc: [
@@ -106,7 +111,11 @@ export default {
                     title: "General",
                     id: "general-1",
                     visible: true,
-                    desc: ["CentOS 6/CentOS 7/Ubuntu 16.04/Fedora 23/Debian 8"],
+                    desc: [
+                        this.$t("help.gen.1"),
+                        this.$t("help.gen.2"),
+                        this.$t("help.gen.3"),
+                    ],
                 },
             ],
         };
@@ -116,5 +125,9 @@ export default {
 <style>
 .testx {
     content: "\F415";
+}
+.help-section {
+    padding: 100px 0;
+    position: relative;
 }
 </style>

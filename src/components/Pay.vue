@@ -8,7 +8,7 @@
                     <b-col sm="9">
                         <b-form-input
                             v-model="code"
-                            placeholder="input your redeem code"
+                            :placeholder="payinput"
                             size="lg"
                         >
                         </b-form-input>
@@ -26,7 +26,7 @@
                                 variant="primary"
                                 @click="activeRedeem"
                             >
-                                Recharge</b-button
+                                {{ $t("btn.recharge") }}</b-button
                             >
                         </b-overlay>
                     </b-col>
@@ -47,6 +47,7 @@ export default {
         return {
             code: null,
             chargeLoading: false,
+            payinput: this.$t("pay.input"),
         };
     },
     methods: {

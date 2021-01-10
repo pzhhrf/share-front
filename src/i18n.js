@@ -16,7 +16,7 @@ function loadLocaleMessages() {
 }
 
 export default new VueI18n({
-    locale: Cookies.get("lang") || 'en',
-    fallbackLocale: process.env.VUE_APP_I18N_FALLBACK_LOCALE || 'en',
+    locale: Cookies.get("lang") || 'zh',
+    fallbackLocale: process.env.VUE_APP_I18N_FALLBACK_LOCALE || 'zh',
     messages: loadLocaleMessages()
 })

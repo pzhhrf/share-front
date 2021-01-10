@@ -16,25 +16,29 @@
                 </h4>
             </div>
         </div>
-        <div class="card-body p-4">
+        <div class="card-body p-4 price-light">
             <div class="d-flex mb-3">
                 <span class="price text-primary h1 mb-0">{{ price }}</span>
             </div>
             <ul class="feature-list list-unstyled mb-0">
                 <li class="text-muted">
                     <i class="mdi mdi-arrow-right text-primary mr-2"></i
-                    ><span class="font-weight-bold">{{ bandwith }}</span>
-                    Bandwith
+                    ><span class="font-weight-bold">{{ bandwidth }}</span>
+                    {{ $t("home.price.bandwidth") }}
                 </li>
                 <li class="text-muted">
                     <i class="mdi mdi-arrow-right text-primary mr-2"></i
-                    ><span class="font-weight-bold">Unlimited</span>
-                    Bandwith Dealline
+                    ><span class="font-weight-bold">{{
+                        $t("home.price.unlimited")
+                    }}</span>
+                    {{ $t("home.price.deadline") }}
                 </li>
                 <li class="text-muted">
                     <i class="mdi mdi-arrow-right text-primary mr-2"></i
-                    ><span class="font-weight-bold">3 Day</span>
-                    Expire Storage
+                    ><span class="font-weight-bold">{{
+                        $t("home.price.day")
+                    }}</span>
+                    {{ $t("home.price.expired") }}
                 </li>
             </ul>
             <a href="javascript:void(0)" class="btn btn-primary mt-4">{{
@@ -46,7 +50,7 @@
 <script>
 export default {
     name: "HomePrice",
-    props: ["title", "price", "bandwith", "recommend"],
+    props: ["title", "price", "bandwidth", "recommend"],
     computed: {
         isRem: function () {
             return this.recommend
@@ -71,5 +75,9 @@ export default {
 
 .mdi-arrow-right:before {
     content: ">";
+}
+
+.price-light {
+    background-color: #ffffff;
 }
 </style>

@@ -25,11 +25,11 @@
                 <div class="row justify-content-center">
                     <div class="col-12">
                         <div class="section-title text-center mb-4 pb-2">
-                            <h4 class="title mb-3">Hosting Services</h4>
+                            <h4 class="title mb-3">
+                                {{ $t("home.service.title") }}
+                            </h4>
                             <p class="text-muted para-desc mx-auto mb-0">
-                                Create, collaborate, and turn your ideas into
-                                incredible products with the definitive platform
-                                for digital design.
+                                {{ $t("home.service.content") }}
                             </p>
                         </div>
                     </div>
@@ -73,23 +73,23 @@
                     <price
                         :title="$t('home.price.1.title')"
                         :price="$t('home.price.1')"
-                        :bandwith="$t('home.price.1.bandwith')"
+                        :bandwidth="$t('home.price.1.bandwidth')"
                     ></price>
                     <price
                         :title="$t('home.price.2.title')"
                         :price="$t('home.price.2')"
-                        :bandwith="$t('home.price.2.bandwith')"
+                        :bandwidth="$t('home.price.2.bandwidth')"
                     ></price>
                     <price
                         :title="$t('home.price.3.title')"
                         :price="$t('home.price.3')"
                         :recommend="true"
-                        :bandwith="$t('home.price.3.bandwith')"
+                        :bandwidth="$t('home.price.3.bandwidth')"
                     ></price>
                     <price
                         :title="$t('home.price.4.title')"
                         :price="$t('home.price.4')"
-                        :bandwith="$t('home.price.4.bandwith')"
+                        :bandwidth="$t('home.price.4.bandwidth')"
                     ></price>
                 </div>
             </div>

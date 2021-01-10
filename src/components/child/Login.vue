@@ -99,14 +99,14 @@
                             </b-overlay>
                             <div class="col-12 text-center">
                                 <p class="mb-0 mt-3">
-                                    <small class="text-dark mr-2"
-                                        >Don't have an account ?</small
-                                    >
+                                    <small class="text-dark mr-2">
+                                        {{ $t("login.have") }}
+                                    </small>
                                     <a
                                         href="#"
                                         class="text-dark font-weight-bold"
                                         @click="switchReg(true)"
-                                        >Sign Up</a
+                                        >{{ $t("login.signup") }}</a
                                     >
                                 </p>
                             </div>
@@ -248,7 +248,7 @@
                             <div class="col-12 text-center">
                                 <p class="mb-0 mt-3">
                                     <small class="text-dark mr-2"
-                                        >You already have an account ?</small
+                                        >{{$t("login.already.have")}}</small
                                     >
                                     <a
                                         href="#"
@@ -335,7 +335,7 @@ export default {
                         this.setLoginData(res.data);
                         this.close();
                         this.reload();
-                        bus.$emit('')
+                        bus.$emit("");
                         this.$router.push({
                             path: "/task",
                         });

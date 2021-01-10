@@ -22,7 +22,7 @@
                                 variant="primary"
                                 size="lg"
                                 @click="parseUrl"
-                                >Extract</b-button
+                                >{{$t('btn.extract')}}</b-button
                             >
                         </b-overlay>
                     </b-col>
@@ -42,7 +42,9 @@
                     show-empty
                 >
                     <template #table-caption
-                        ><strong>Extract List</strong></template
+                        ><strong
+                            >{{ $t("task.extract.list") }}
+                        </strong></template
                     >
                     <template #table-busy>
                         <div class="text-center text-danger my-2">
@@ -67,7 +69,7 @@
                             <b-button
                                 v-if="data.item.status == 1"
                                 @click="addTaskDownload(data.item)"
-                                >Download</b-button
+                                >{{ $t("btn.download") }}</b-button
                             >
                         </b-overlay>
                     </template>
@@ -90,7 +92,7 @@
                     show-empty
                 >
                     <template #table-caption
-                        ><strong> File Download List </strong></template
+                        ><strong> {{ $t("task.file.list") }} </strong></template
                     >
                     <template #table-busy>
                         <div class="text-center text-danger my-2">
@@ -170,7 +172,7 @@ export default {
     },
     data() {
         return {
-            extract_url: "https://www.sharecloud.cc/assets/你的答案.flac",
+            extract_url: "",
             extLoading: false,
             ext_fields: [
                 { key: "name", label: "File Name" },
@@ -207,8 +209,8 @@ export default {
                 var info = CheckLogin();
                 if (info != undefined) {
                     this.ws = new WebSocket(
-                        // "wss://www.sharecloud.cc?token=" + info.token
-                        "ws://127.0.0.1:18001/ws?token=" + info.token
+                        "ws://www.sharecloud.cc/ws?token=" + info.token
+                        // "ws://127.0.0.1:18001/ws?token=" + info.token
                     );
                     if (reconnect && this.timer != null) {
                         clearInterval(this.timer);

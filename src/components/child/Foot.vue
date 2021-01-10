@@ -5,7 +5,7 @@
                 <div class="row justify-content-center">
                     <div class="col-12">
                         <div class="section-title text-md-center">
-                            <h4 class="text-light mb-0">Get In Touch !</h4>
+                            <h4 class="text-light mb-0">Support</h4>
                         </div>
                     </div>
                 </div>
@@ -35,10 +35,8 @@
                             </div>
                             <div class="content mt-2">
                                 <h5 class="title text-light">Email</h5>
-                                <a
-                                    href="mailto:contact@example.com"
-                                    class="text-foot"
-                                    >contact@example.com</a
+                                <span class="text-foot"
+                                    >services@sharecloud.cc</span
                                 >
                             </div>
                         </div>
