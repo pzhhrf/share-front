@@ -8,7 +8,7 @@
                     <b-col sm="9">
                         <b-form-textarea
                             v-model="extract_url"
-                            placeholder="extract url..."
+                            :placeholder="place_extract"
                             rows="5"
                             max-rows="5"
                             size="lg"
@@ -22,7 +22,7 @@
                                 variant="primary"
                                 size="lg"
                                 @click="parseUrl"
-                                >{{$t('btn.extract')}}</b-button
+                                >{{ $t("btn.extract") }}</b-button
                             >
                         </b-overlay>
                     </b-col>
@@ -174,6 +174,7 @@ export default {
         return {
             extract_url: "",
             extLoading: false,
+            place_extract: this.$t("task.placehoder"),
             ext_fields: [
                 { key: "name", label: "File Name" },
                 { key: "size", label: "Size" },
