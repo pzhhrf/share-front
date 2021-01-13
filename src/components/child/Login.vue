@@ -279,8 +279,8 @@ export default {
     data() {
         return {
             loginForm: {
-                email: "test@163.com",
-                password: "ppp@12345",
+                email: "",
+                password: "",
                 remember: false,
             },
             regForm: {
