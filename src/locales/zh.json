@@ -83,5 +83,7 @@
     "help.gen.2": "转存后有效期为3天时间",
     "help.gen.3": "转存内容请准守当地法律,平台有权限删除非法文件",
     "pay.input": "请输入您的兑换码",
-    "task.placehoder": "请输入提取链接..."
+    "task.placehoder": "请输入提取链接...",
+    "copy.suc": "复制成功",
+    "copy.fail": "复制失败"
 }

@@ -40,6 +40,7 @@
                     hover
                     caption-top
                     show-empty
+                    fixed
                 >
                     <template #table-caption
                         ><strong
@@ -90,6 +91,7 @@
                     hover
                     caption-top
                     show-empty
+                    fixed
                 >
                     <template #table-caption
                         ><strong> {{ $t("task.file.list") }} </strong></template
@@ -178,7 +180,6 @@ export default {
             ext_fields: [
                 { key: "name", label: "File Name" },
                 { key: "size", label: "Size" },
-                { key: "url", label: "Url" },
                 { key: "status", label: "Status" },
                 { key: "op", label: "Operation" },
             ],
@@ -358,10 +359,10 @@ export default {
             return tables;
         },
         onCopySuc() {
-            this.$message.success("copy success");
+            this.$message.success(this.$t("copy.suc"));
         },
         onCopyErr() {
-            this.$message.success("copy fail");
+            this.$message.success(this.$t("copy.fail"));
         },
     },
 };

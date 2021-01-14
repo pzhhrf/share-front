@@ -82,5 +82,7 @@
     "help.gen.2": "Link expired after 2 days",
     "help.gen.3": "Comply with local laws",
     "pay.input": "input your redeem code",
-    "task.placehoder": "input extract url..."
+    "task.placehoder": "input extract url...",
+    "copy.suc": "copy success",
+    "copy.fail": "copy fail"
 }
