@@ -81,8 +81,9 @@
     "help.gen.1": "Do not share you privete link",
     "help.gen.2": "Link expired after 2 days",
     "help.gen.3": "Comply with local laws",
-    "pay.input": "input your redeem code",
+    "pay.input": "input your activation code",
     "task.placehoder": "input extract url...",
+    "task.down.delete":"Delete",
     "copy.suc": "copy success",
     "copy.fail": "copy fail"
 }

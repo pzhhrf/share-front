@@ -18,23 +18,9 @@
                     />
                 </a>
             </div>
-
             <div class="buy-button">
                 <template v-if="isLogined">
                     <div>
-                        <b-dropdown
-                            :text="currentLang"
-                            class="m-1 switch-lang"
-                            variant="light"
-                            size="sm"
-                        >
-                            <b-dropdown-item-btn @click="switchLang('en')"
-                                >En</b-dropdown-item-btn
-                            >
-                            <b-dropdown-item-btn @click="switchLang('zh')"
-                                >Zh</b-dropdown-item-btn
-                            >
-                        </b-dropdown>
                         <b-dropdown size="sm" class="bg-light" variant="light">
                             <template #button-content>
                                 {{ user.email }}
@@ -64,6 +50,21 @@
                         >{{ $t("btn.register") }}</a
                     >
                 </template>
+            </div>
+            <div class="switch-button">
+                <b-dropdown
+                    :text="currentLang"
+                    class="m-1 switch-lang"
+                    variant="light"
+                    size="sm"
+                >
+                    <b-dropdown-item-btn @click="switchLang('en')"
+                        >en</b-dropdown-item-btn
+                    >
+                    <b-dropdown-item-btn @click="switchLang('zh')"
+                        >zh</b-dropdown-item-btn
+                    >
+                </b-dropdown>
             </div>
             <!--end login button-->
             <!-- End Logo container-->
@@ -118,6 +119,10 @@ export default {
     components: { Login },
     mounted() {
         window.addEventListener("scroll", this.handleScroll);
+        var s = Cookies.get("leftBandwidth");
+        if (s) {
+            this.left = s;
+        }
     },
     created() {
         bus.$on("openLogin", (value) => {
@@ -144,7 +149,7 @@ export default {
             isLoginPop: true,
             isLogined: false,
             langSelected: null,
-            currentLang: "Lang",
+            currentLang: "zh",
             user: {},
             left: 0,
             headerLocalCls: this.headerCls,
@@ -191,6 +196,7 @@ export default {
             request.getUserStatus().then((res) => {
                 if (res.code == 0 && res.data) {
                     this.left = formatSize(res.data.permanent_balance);
+                    Cookies.set("leftBandwidth", this.left);
                 }
             });
         },
@@ -201,5 +207,10 @@ export default {
 .switch-lang .dropdown-menu {
     min-width: 5rem;
     overflow-y: auto;
+}
+.switch-button {
+    float: right;
+    line-height: 50px;
+    padding: 10px 10px;
 }
 </style>

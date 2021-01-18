@@ -8,7 +8,7 @@
     "btn.download": "下载",
     "btn.recharge": "激活",
     "btn.extract": "提取",
-    "home.title": "一个账号多个服务",
+    "home.title": "一个账号畅享全网资源",
     "home.desc": "高速稳定的中转服务",
     "home.price.title": "最受欢迎的充值方式",
     "home.price.desc": "从体验到尊享,我们提供了多种方式供您选择",
@@ -79,11 +79,12 @@
     "help.fea.1": "支持多个云,权益更多",
     "help.fea.2": "只提供转存,不进行任何修改",
     "help.fea.3": "充值的流量永远有效",
-    "help.gen.1": "不要分享你的专属下载链接,会被封号",
+    "help.gen.1": "不要分享你的专属下载链接",
     "help.gen.2": "转存后有效期为3天时间",
     "help.gen.3": "转存内容请准守当地法律,平台有权限删除非法文件",
     "pay.input": "请输入您的兑换码",
     "task.placehoder": "请输入提取链接...",
+    "task.down.delete": "删除记录",
     "copy.suc": "复制成功",
     "copy.fail": "复制失败"
 }

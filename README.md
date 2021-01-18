@@ -1,4 +1,4 @@
-# share-front
+# Sharecloud
 
 ## Project setup
 ```

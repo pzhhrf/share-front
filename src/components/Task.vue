@@ -42,6 +42,14 @@
                     show-empty
                     fixed
                 >
+                    <template #cell(name)="row">
+                        <span
+                            v-b-tooltip.hover
+                            :title="row.value"
+                            class="hide-ext-td"
+                            >{{ row.value }}</span
+                        >
+                    </template>
                     <template #table-caption
                         ><strong
                             >{{ $t("task.extract.list") }}
@@ -68,6 +76,7 @@
                             spinner-variant="primary"
                         >
                             <b-button
+                                size="sm"
                                 v-if="data.item.status == 1"
                                 @click="addTaskDownload(data.item)"
                                 >{{ $t("btn.download") }}</b-button
@@ -91,8 +100,15 @@
                     hover
                     caption-top
                     show-empty
-                    fixed
                 >
+                    <template #cell(down_name)="row">
+                        <span
+                            v-b-tooltip.hover
+                            :title="row.value"
+                            class="hide-td"
+                            >{{ row.value }}</span
+                        >
+                    </template>
                     <template #table-caption
                         ><strong> {{ $t("task.file.list") }} </strong></template
                     >
@@ -105,6 +121,9 @@
                     <template #cell(size)="row">
                         {{ row.value | formatSize }}
                     </template>
+                    <template #cell(detail)="row">
+                        <span v-html="row.value"></span>
+                    </template>
                     <template #cell(ctime)="row">
                         {{ row.value | filterTime }}
                     </template>
@@ -115,22 +134,28 @@
                         {{ row.value | filterStatus }}
                     </template>
                     <template #cell(op)="row">
-                        <span
-                            v-for="tmp in row.item.download_list"
-                            :key="tmp.id"
-                        >
-                            <b-button
-                                v-clipboard:copy="tmp.msg"
-                                v-clipboard:success="onCopySuc"
-                                v-clipboard:error="onCopyErr"
-                                >{{ $t("task.down.addr")
-                                }}{{ tmp.id }}</b-button
+                        <b-button-group>
+                            <span
+                                v-for="tmp in row.item.download_list"
+                                :key="tmp.id"
                             >
-                        </span>
-                        <b-button
-                            @click="delDownload(row)"
-                            variant="error"
-                        ></b-button>
+                                <b-button
+                                    size="sm"
+                                    v-clipboard:copy="tmp.msg"
+                                    v-clipboard:success="onCopySuc"
+                                    v-clipboard:error="onCopyErr"
+                                    >{{ $t("task.down.addr")
+                                    }}{{ tmp.id }}</b-button
+                                >
+                            </span>
+                            <b-button
+                                v-if="isDisplayDelete(row)"
+                                size="sm"
+                                @click="delDownload(row)"
+                                variant="danger"
+                                >{{ $t("task.down.delete") }}</b-button
+                            >
+                        </b-button-group>
                     </template>
                 </b-table>
                 <b-pagination
@@ -211,7 +236,7 @@ export default {
                 var info = CheckLogin();
                 if (info != undefined) {
                     this.ws = new WebSocket(
-                        "ws://www.sharecloud.cc/ws?token=" + info.token
+                        "wss://www.sharecloud.cc/ws?token=" + info.token
                         // "ws://127.0.0.1:18001/ws?token=" + info.token
                     );
                     if (reconnect && this.timer != null) {
@@ -247,7 +272,7 @@ export default {
                             var det =
                                 this.$t("task.down.speed") +
                                 body.speed +
-                                "  " +
+                                "<br/>" +
                                 this.$t("task.down.percent") +
                                 body.percent +
                                 "%";
@@ -320,6 +345,9 @@ export default {
                     row.ext_down_status = true;
                 });
         },
+        isDisplayDelete(data) {
+            return data.item.status == 4 || data.item.status == 6;
+        },
         delDownload(data) {},
         getTask() {
             var dict = {
@@ -376,5 +404,19 @@ export default {
     align-self: center;
     position: relative;
     background-position: center center;
+}
+.hide-td {
+    display: inline-block;
+    width: 100px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.hide-ext-td {
+    display: inline-block;
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 </style>
