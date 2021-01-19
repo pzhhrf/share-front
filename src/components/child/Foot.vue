@@ -41,6 +41,19 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-md-4 mt-4 pt-2">
+                        <div class="text-md-center">
+                            <div>
+                                <img
+                                    src="../../assets/images/qqqun.png"
+                                    class="foot-qq"
+                                />
+                            </div>
+                            <div class="content mt-2">
+                                <span class="text-foot">QQ:866891341</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </footer>
@@ -81,5 +94,9 @@ export default {
     position: absolute;
     bottom: 0;
     width: 100%;
+}
+.foot-qq {
+    height: 80px;
+    width: 80px;
 }
 </style>
