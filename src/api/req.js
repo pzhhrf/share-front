@@ -37,4 +37,7 @@ export default {
     addRedeem(params) {
         return Vue.axios.post(`/api/v1/gate/add/redeem`, JSON.stringify(params))
     },
+    createPay(params){
+        return Vue.axios.post(`/api/v1/gate/pay`, JSON.stringify(params))
+    },
 }

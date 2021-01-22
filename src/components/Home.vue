@@ -74,22 +74,26 @@
                         :title="$t('home.price.1.title')"
                         :price="$t('home.price.1')"
                         :bandwidth="$t('home.price.1.bandwidth')"
+                        :id="1"
                     ></price>
                     <price
                         :title="$t('home.price.2.title')"
                         :price="$t('home.price.2')"
                         :bandwidth="$t('home.price.2.bandwidth')"
+                        :id="2"
                     ></price>
                     <price
                         :title="$t('home.price.3.title')"
                         :price="$t('home.price.3')"
                         :recommend="true"
                         :bandwidth="$t('home.price.3.bandwidth')"
+                        :id="3"
                     ></price>
                     <price
                         :title="$t('home.price.4.title')"
                         :price="$t('home.price.4')"
                         :bandwidth="$t('home.price.4.bandwidth')"
+                        :id="4"
                     ></price>
                 </div>
             </div>

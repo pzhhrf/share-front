@@ -41,21 +41,46 @@
                     {{ $t("home.price.expired") }}
                 </li>
             </ul>
-            <a href="javascript:void(0)" class="btn btn-primary mt-4">{{
-                $t("home.price.start")
-            }}</a>
+            <b-overlay :show="show" rounded="sm">
+                <b-button class="btn btn-primary mt-4" @click="reqPay">{{
+                    $t("home.price.start")
+                }}</b-button>
+            </b-overlay>
         </div>
     </div>
 </template>
 <script>
+import request from "@/api/req.js";
 export default {
     name: "HomePrice",
-    props: ["title", "price", "bandwidth", "recommend"],
+    props: ["title", "price", "bandwidth", "recommend", "id"],
     computed: {
         isRem: function () {
             return this.recommend
                 ? "card pricing hosting-rate best-plan border-0 rounded overflow-hidden"
                 : "card pricing hosting-rate border-0 rounded overflow-hidden";
+        },
+    },
+    data() {
+        return {
+            show: false,
+        };
+    },
+    methods: {
+        reqPay() {
+            this.show = true;
+            let data = { id: this.id };
+            request
+                .createPay(data)
+                .then((res) => {
+                    this.show = false;
+                    if (res.code == 0) {
+                        window.open(res.data.url, "_blank");
+                    }
+                })
+                .catch((e) => {
+                    this.show = false;
+                });
         },
     },
 };
