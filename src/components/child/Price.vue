@@ -51,6 +51,7 @@
 </template>
 <script>
 import request from "@/api/req.js";
+import { bus } from "@/utils/bus.js";
 export default {
     name: "HomePrice",
     props: ["title", "price", "bandwidth", "recommend", "id"],
@@ -77,6 +78,12 @@ export default {
                     if (res.code == 0) {
                         window.open(res.data.url, "_blank");
                     }
+                    // if (res.code == 200002) {
+                    //     this.$message.error(this.$t("login.session.out"));
+                    //     bus.$emit("openLogin", true);
+                    // } else {
+                    //     this.$message.error(res.msg);
+                    // }
                 })
                 .catch((e) => {
                     this.show = false;

@@ -68,20 +68,22 @@
                         {{ data.value | formatExtStatus }}
                     </template>
                     <template #cell(op)="data">
-                        <b-overlay
-                            :show="trsDownStatus(data.item)"
-                            rounded
-                            opacity="0.6"
-                            spinner-small
-                            spinner-variant="primary"
-                        >
-                            <b-button
-                                size="sm"
-                                v-if="data.item.status == 1"
-                                @click="addTaskDownload(data.item)"
-                                >{{ $t("btn.download") }}</b-button
+                        <b-col cols="5">
+                            <b-overlay
+                                :show="trsDownStatus(data.item)"
+                                rounded
+                                opacity="0.6"
+                                spinner-small
+                                spinner-variant="primary"
                             >
-                        </b-overlay>
+                                <b-button
+                                    size="sm"
+                                    v-if="data.item.status == 1"
+                                    @click="addTaskDownload(data.item)"
+                                    >{{ $t("btn.download") }}</b-button
+                                >
+                            </b-overlay>
+                        </b-col>
                     </template>
                 </b-table>
             </b-container>
@@ -151,7 +153,7 @@
                             <b-button
                                 v-if="isDisplayDelete(row)"
                                 size="sm"
-                                @click="delDownload(row)"
+                                @click="delDownload(row.item)"
                                 variant="danger"
                                 >{{ $t("task.down.delete") }}</b-button
                             >
@@ -329,11 +331,12 @@ export default {
         },
         addTaskDownload(row) {
             let dict = { id: row.id };
-            row.ext_down_status = true;
+            //这里要触发状态的更新,需要特殊处理
+            this.resetExtItems(row, { ext_down_status: true });
             request
                 .addTask(dict)
                 .then((res) => {
-                    row.ext_down_status = false;
+                    this.resetExtItems(row, { ext_down_status: false });
                     if (res.code == 0) {
                         this.getTask();
                     } else {
@@ -342,13 +345,60 @@ export default {
                 })
                 .catch((e) => {
                     console.log(e);
-                    row.ext_down_status = true;
+                    this.resetExtItems(row, { ext_down_status: false });
                 });
+        },
+        //重新触发解析列表中的刷新操作
+        resetExtItems(row, value) {
+            this.ext_items.forEach((item, index) => {
+                if (item.id == row.id) {
+                    this.$set(
+                        this.ext_items,
+                        index,
+                        Object.assign(item, value)
+                    );
+                }
+            });
         },
         isDisplayDelete(data) {
             return data.item.status == 4 || data.item.status == 6;
         },
-        delDownload(data) {},
+        delDownload(data) {
+            this.$bvModal
+                .msgBoxConfirm(this.$t("delete.content"), {
+                    title: this.$t("delete.title"),
+                    size: "sm",
+                    buttonSize: "sm",
+                    okVariant: "danger",
+                    okTitle: this.$t("btn.delete"),
+                    cancelTitle: this.$t("btn.cancel"),
+                    footerClass: "p-2",
+                    hideHeaderClose: false,
+                    centered: true,
+                })
+                .then((value) => {
+                    if (value) {
+                        request
+                            .delTask({ id: data.id })
+                            .then((res) => {
+                                if (res.code == 0) {
+                                    this.$message.error(this.$t("delete.suc"));
+                                    this.getTask();
+                                } else {
+                                    this.$message.error(
+                                        this.$t("delete.failed")
+                                    );
+                                }
+                            })
+                            .catch((err) => {
+                                console.log(err);
+                            });
+                    }
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        },
         getTask() {
             var dict = {
                 page: this.currentPage,

@@ -8,6 +8,8 @@
     "btn.download": "Download",
     "btn.recharge": "Recharge",
     "btn.extract": "Extract",
+    "btn.delete": "Delete",
+    "btn.cancel": "Cancel",
     "home.title": "One Account & Multi Cloud",
     "home.desc": "Create, collaborate, and turn your ideas into incredible products with the definitive platform for digital design.",
     "home.price.title": "Popular Pricing Plans",
@@ -85,5 +87,9 @@
     "task.placehoder": "input extract url...",
     "task.down.delete": "Delete",
     "copy.suc": "copy success",
-    "copy.fail": "copy fail"
+    "copy.fail": "copy fail",
+    "delete.title": "Confirm Delete?",
+    "delete.content": "it will be permanent delete record",
+    "delete.failed": "delete record failed",
+    "delete.suc": "delete successfully"
 }

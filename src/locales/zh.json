@@ -8,6 +8,8 @@
     "btn.download": "下载",
     "btn.recharge": "激活",
     "btn.extract": "提取",
+    "btn.delete": "删除",
+    "btn.cancel": "取消",
     "home.title": "一个账号畅享全网资源",
     "home.desc": "高速稳定的中转服务",
     "home.price.title": "最受欢迎的充值方式",
@@ -86,5 +88,9 @@
     "task.placehoder": "请输入提取链接...",
     "task.down.delete": "删除记录",
     "copy.suc": "复制成功",
-    "copy.fail": "复制失败"
+    "copy.fail": "复制失败",
+    "delete.title": "确认删除?",
+    "delete.content": "删除操作将永久删除该转存记录",
+    "delete.failed": "删除信息失败",
+    "delete.suc":"删除成功"
 }

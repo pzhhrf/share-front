@@ -159,7 +159,6 @@ import Price from "./child/Price.vue";
 import Foot from "./child/Foot.vue";
 import MyHeader from "./child/MyHeader.vue";
 import HomeIntro from "./child/Intro.vue";
-
 import request from "@/api/req.js";
 
 export default {
