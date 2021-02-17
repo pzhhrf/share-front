@@ -58,9 +58,9 @@
                     variant="light"
                     size="sm"
                 >
-                    <b-dropdown-item-btn @click="switchLang('en')"
+                    <!-- <b-dropdown-item-btn @click="switchLang('en')"
                         >en</b-dropdown-item-btn
-                    >
+                    > -->
                     <b-dropdown-item-btn @click="switchLang('zh')"
                         >zh</b-dropdown-item-btn
                     >
@@ -125,7 +125,7 @@ export default {
         }
     },
     created() {
-        bus.$on("openLogin", (value) => {
+        bus.$on("openLogin", () => {
             this.showLogin = true;
         });
         bus.$on("userstatus", () => {

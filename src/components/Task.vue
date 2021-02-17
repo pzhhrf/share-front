@@ -1,3 +1,4 @@
+/* eslint-disable */
 <template>
     <div>
         <MyHeader></MyHeader>
@@ -133,7 +134,7 @@
                         {{ row.value | filterTime }}
                     </template>
                     <template #cell(status)="row">
-                        {{ row.value | filterStatus }}
+                        {{ row.value }}
                     </template>
                     <template #cell(op)="row">
                         <b-button-group>
@@ -197,7 +198,6 @@ export default {
                 return formatDate(str);
             }
         },
-        filterStatus(status) {},
     },
     data() {
         return {

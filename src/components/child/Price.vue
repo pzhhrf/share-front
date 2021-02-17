@@ -78,14 +78,15 @@ export default {
                     if (res.code == 0) {
                         window.open(res.data.url, "_blank");
                     }
-                    // if (res.code == 200002) {
-                    //     this.$message.error(this.$t("login.session.out"));
-                    //     bus.$emit("openLogin", true);
-                    // } else {
-                    //     this.$message.error(res.msg);
-                    // }
+                    if (res.code == 200002) {
+                        this.$message.error(this.$t("login.session.out"));
+                        bus.$emit("openLogin", true);
+                    } else {
+                        this.$message.error(res.msg);
+                    }
                 })
                 .catch((e) => {
+                    console.log(e);
                     this.show = false;
                 });
         },
