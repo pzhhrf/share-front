@@ -247,9 +247,9 @@
                             </b-overlay>
                             <div class="col-12 text-center">
                                 <p class="mb-0 mt-3">
-                                    <small class="text-dark mr-2"
-                                        >{{$t("login.already.have")}}</small
-                                    >
+                                    <small class="text-dark mr-2">{{
+                                        $t("login.already.have")
+                                    }}</small>
                                     <a
                                         href="#"
                                         class="text-dark font-weight-bold"
@@ -270,7 +270,6 @@ import request from "@/api/req.js";
 import md5 from "js-md5";
 import Cookies from "js-cookie";
 import moment from "moment";
-import { CheckLogin } from "@/utils/validate.js";
 import { bus } from "@/utils/bus.js";
 export default {
     name: "Login",
@@ -447,7 +446,11 @@ export default {
         getUserInfo() {
             request
                 .getUserStatus()
-                .then((res) => {})
+                .then((res) => {
+                    if (res.code != 0) {
+                        console.log("get user info error");
+                    }
+                })
                 .catch((e) => {
                     console.log(e);
                     this.$message.error(this.$t("network.error"));

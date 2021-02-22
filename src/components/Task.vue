@@ -96,7 +96,6 @@
                     :items="down_items"
                     :fields="down_fields"
                     :busy="downBusy"
-                    :per-page="10"
                     :current-page="currentPage"
                     striped
                     bordered
@@ -164,9 +163,10 @@
                 <b-pagination
                     v-model="currentPage"
                     :total-rows="totalRows"
-                    :per-page="10"
+                    :per-page="perPage"
                     aria-controls="downTable"
                     align="end"
+                    @page-click="pageChanged"
                 ></b-pagination>
             </b-container>
         </section>
@@ -221,6 +221,7 @@ export default {
                 { key: "op", label: "Operation" },
             ],
             down_items: [],
+            perPage: 10,
             currentPage: 1,
             totalRows: 0,
             ws: null,
@@ -239,7 +240,6 @@ export default {
                 if (info != undefined) {
                     this.ws = new WebSocket(
                         "wss://www.sharecloud.cc/ws?token=" + info.token
-                        // "ws://127.0.0.1:18001/ws?token=" + info.token
                     );
                     if (reconnect && this.timer != null) {
                         clearInterval(this.timer);
@@ -402,7 +402,7 @@ export default {
         getTask() {
             var dict = {
                 page: this.currentPage,
-                limit: 10,
+                limit: this.perPage,
             };
             this.downBusy = true;
             request
@@ -441,6 +441,10 @@ export default {
         },
         onCopyErr() {
             this.$message.success(this.$t("copy.fail"));
+        },
+        pageChanged(event, number) {
+            this.currentPage = number;
+            this.getTask();
         },
     },
 };
